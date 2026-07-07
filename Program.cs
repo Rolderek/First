@@ -30,6 +30,9 @@ internal class Program
             return source;
         });
 
+        //ez minden felhasználónka megy/elérik
+        builder.Services.AddSingleton<StateService>();
+
         await builder.Build().RunAsync();
     }
 }

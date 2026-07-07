@@ -1,0 +1,34 @@
+﻿@page "/stateServiceDemo"
+@inject StateService StateService
+@implements IDisposable
+
+<!--ha átírom singleton-ra a program.cs-ben akkor az oldal frissítésnél is ott lesz az adat a listában, amúgy elveszik->
+
+<h3>StateServiceDemo</h3>
+
+<ul>
+    @foreach (var message in StateService.GetMessage())
+    {
+        <li>@message</li>    
+    }
+</ul>
+
+<button class="btn btn-primary" @onclick="AddMessage">Add Message</button>
+
+@code {
+    protected override void OnInitialized()
+    {
+        StateService.OnChange += () => InvokeAsync(StateHasChanged);
+    }
+
+    private void AddMessage()
+    {
+        StateService.AddMessage($"New message at {DateTime.Now}");    
+    }
+
+    //kikapcs
+    public void Dispose()
+    {
+        StateService.OnChange -= StateHasChanged; 
+    }
+}
