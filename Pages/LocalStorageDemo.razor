@@ -1,5 +1,6 @@
 ﻿@page "/localstoragedemo"
 @using First.LocalStorage
+@using First.Services
 @inject ProgrammingLangueageService LanguageService
 
 <h3>LocalStorageDemo</h3>
@@ -24,6 +25,12 @@
             <button class="btn btn-secondary" @onclick="LoadLanguage">Load</button>
         </div>
     </div>
+</div>
+
+<div class="row">
+    <ul>
+        @foreach (var l in LanguageService.)
+    </ul>
 </div>
 
 @code {

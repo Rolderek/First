@@ -1,5 +1,6 @@
 ﻿using First.LocalStorage;
 using Microsoft.JSInterop;
+using System.Globalization;
 using System.Text.Json;
 
 namespace First.Services
@@ -24,28 +25,17 @@ namespace First.Services
             await _localStorageService.RemoveItem(languageName);
         }
 
-        //public async Task<ProgrammingLanguage> GetLanguageAsync(string languageName)
-        //{
-        //    ProgrammingLanguage language = null; ;
-        //    var jsonLanguage = await _localStorageService.GetItem(languageName);
-        //    if (jsonLanguage != null)
-        //    {
-        //        language = JsonSerializer.Deserialize<ProgrammingLanguage>(jsonLanguage);
-        //    }
-        //
-        //    return language;
-        //}
-
-        public async Task<ProgrammingLanguage?> GetLanguageAsync(string languageName)
+        public async Task<ProgrammingLanguage> GetLanguageAsync(string languageName)
         {
+            ProgrammingLanguage language = null; ;
             var jsonLanguage = await _localStorageService.GetItem(languageName);
-
-            if (string.IsNullOrEmpty(jsonLanguage))
+            if (jsonLanguage != null)
             {
-                return null;
+                language = JsonSerializer.Deserialize<ProgrammingLanguage>(jsonLanguage);
             }
-
-            return JsonSerializer.Deserialize<ProgrammingLanguage>(jsonLanguage);
+        
+            return language;
         }
+
     }
 }
