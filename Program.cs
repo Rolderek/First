@@ -32,6 +32,7 @@ internal class Program
 
         //ez minden felhasználónka megy/elérik
         builder.Services.AddSingleton<StateService>();
+        builder.Services.AddScoped<LocalStorageService>();
         builder.Services.AddScoped<ProgrammingLangueageService>();
 
         await builder.Build().RunAsync();

@@ -24,16 +24,28 @@ namespace First.Services
             await _localStorageService.RemoveItem(languageName);
         }
 
-        public async Task<ProgrammingLanguage> GetLanguageAsync(string languageName)
+        //public async Task<ProgrammingLanguage> GetLanguageAsync(string languageName)
+        //{
+        //    ProgrammingLanguage language = null; ;
+        //    var jsonLanguage = await _localStorageService.GetItem(languageName);
+        //    if (jsonLanguage != null)
+        //    {
+        //        language = JsonSerializer.Deserialize<ProgrammingLanguage>(jsonLanguage);
+        //    }
+        //
+        //    return language;
+        //}
+
+        public async Task<ProgrammingLanguage?> GetLanguageAsync(string languageName)
         {
-            ProgrammingLanguage language = null; ;
             var jsonLanguage = await _localStorageService.GetItem(languageName);
-            if (jsonLanguage != null)
+
+            if (string.IsNullOrEmpty(jsonLanguage))
             {
-                language = JsonSerializer.Deserialize<ProgrammingLanguage>(jsonLanguage);
+                return null;
             }
 
-            return language;
+            return JsonSerializer.Deserialize<ProgrammingLanguage>(jsonLanguage);
         }
     }
 }
