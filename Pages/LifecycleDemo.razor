@@ -1,0 +1,75 @@
+﻿@page "/lifecycle"
+@page "/lifecycle{Parameter}"
+
+
+<h3>LifecycleDemo</h3>
+
+@DateTime.Now<br />
+
+@foreach(var e in Events)
+{
+    <div> @e </div>
+}
+
+<a href="@($"lifecycle/{Guid.NewGuid()}")">Refresh</a>
+
+@code {
+    List<string> Events = new();
+
+    [Parameter]
+    public string? Parameter { get; set; }
+
+    public void LogEvent(string eventName)
+    {
+        Events.Add($"{eventName} Start");
+        Events.Add($"{eventName} End");
+    }
+    //a parenttől kapja a parameter-t
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        LogEvent("SetParameterAsync");
+        return base.SetParametersAsync(parameters);
+    }
+
+    protected async override void OnInitialized()
+    {
+        LogEvent("OnInitialized");    
+    }
+    //csak async-nál kell
+    protected override Task OnInitializedAsync()
+    {
+        LogEvent("OnInitializedAsync");
+        return base.OnInitializedAsync();
+    }
+
+    protected override void OnParametersSet()
+    {
+        LogEvent("OnParameterSet");
+        base.OnParametersSet();
+    }
+    //ha valamelyik component változik
+    protected override Task OnParametersSetAsync()
+    {
+        LogEvent("OnParametersSetAsync");
+        return base.OnParametersSetAsync();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Events.Add($"OnAfterRender is first render:{firstRender}");   
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        Events.Add($"OnAfterRenderAsync is first render:{firstRender}");
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override bool ShouldRender()
+    {
+        Events.Add("ShouldRender");
+        return true;
+    }
+
+
+}

@@ -1,0 +1,13 @@
+﻿@page "/TypeParamDemo"
+
+<h3>TypeParamDemo</h3>
+
+<!--hívjuk meg a befoglaló file-okat-->
+<MyList TItem="string" Items="@data" />
+<MyList Items="@data2" />
+
+@code {
+    private List<string> data = new() { "Apple", "Banana", "Cherry" };
+    private List<int> data2 = new() { 1,2,3,4,5 };
+
+}

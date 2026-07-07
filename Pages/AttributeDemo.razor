@@ -1,0 +1,13 @@
+﻿@using Microsoft.AspNetCore.Authorization
+
+@attribute [RouteAttribute("/AttributeDemo")]
+@attribute [Authorize]
+
+<h3>AttributeDemo</h3>
+
+<!--mivel HTML bármikor bele rakhatom az ottani engedélyeket stb (disable/enable)-->
+<MyButton class="btn btn-primary" style="margin-top: 10px;" />
+
+@code {
+
+}

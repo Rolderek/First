@@ -1,0 +1,19 @@
+﻿@page "/dep"
+@using First.Services;
+@inject IMyService MyService
+
+
+<h3>Dependencies</h3>
+
+<button class="btn btn-primary" onclick="@(() => MyService.AddName("Rocket"))">Add Rocket</button>
+<br/>
+
+@foreach (var name in MyService.Names)
+{
+    <p>@name</p>    
+}
+
+@code {
+    
+
+}

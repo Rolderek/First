@@ -1,0 +1,23 @@
+﻿@page "/demo"
+
+<h3>Componen Demo</h3>
+
+@*Implicit Razor expression*@
+@name
+
+@*Explicit Razor expression*@
+<p>@(DateTime.Now - TimeSpan.FromDays(7))</p>
+
+@{
+    void RenderName(string name)
+    {
+        <p>Name: <strong>@name</strong></p>
+    }
+    RenderName("Steve King");
+    RenderName("Pete Thong");
+}
+@code {
+    string name = "Rocket Raccoon";
+
+    
+}

@@ -1,0 +1,30 @@
+﻿@page "/binding"
+
+<h3>BindingDemo</h3>
+
+<input type="text" value="@TextValue1" />@TextValue1
+<br />
+<input type="text" @bind="@TextValue2" />@TextValue2
+<br />
+<input type="text" @bind-value="@TextValue3" />@TextValue3
+<br />
+<input type="text" @bind-value="@TextValue4" @bind-value:event="oninput" />@TextValue4
+<br />
+<input type="text"
+       @bind-value="@TextValue5"
+       @bind-value:after='() => { TextValue5 = TextValue3 + " After"; }' />@TextValue5
+<br />
+<input type="text" @bind-value:set="@((newvalue)=>TextValue4=newvalue)"
+                   @bind-value:get="TextValue4"/>@TextValue4
+
+
+<InputText @bind-Value="@TextValue1">1</InputText>
+
+
+@code {
+    string TextValue1 = "VariableTEst";
+    string TextValue2 = "";
+    string TextValue3 = "";
+    string TextValue4 = "";
+    string TextValue5 = "";
+}

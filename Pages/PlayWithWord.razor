@@ -1,0 +1,85 @@
+﻿@page "/playWW"
+@page "/playWW/{Variable}"
+@page "/playWW/{IntVariable:int}"
+
+<h3>PlayWithWord</h3>
+
+<div class="interaction">
+    <h3>The word you last choose: @theWord</h3>
+    <p><InputText @bind-Value="theWord" @DisplayName="Type someting..."></InputText></p>
+    <p>
+        <button @onclick="AddToList" class="btn btn-primary">Add to list</button>
+        <button @onclick="RandomDelete" class="btn btn-primary">Random deletet</button>
+    </p>
+    <p>@msg</p>
+</div>
+
+<div class="list">
+    @{
+        foreach (string w in words)
+        {
+            <p>@w</p>
+        }
+    } 
+</div>
+<p><button @onclick="DeleteLast" class="btn btn-primary">Delete last elemetn</button></p>
+
+<p><strong>String Value:</strong> @(Variable??"No string variable")</p>
+<p><strong>Int Value:</strong> @(IntVariable==null?"No int variable":IntVariable)</p>
+<p><strong>First name:</strong> @(FirstName??"No FirstName variable")</p>
+
+@code {
+
+    [Parameter]
+    public string? Variable { get; set; }
+
+    [Parameter]
+    public int? IntVariable { get; set; }
+
+    [Parameter, SupplyParameterFromQuery]
+    public string? FirstName { get; set; }
+    //            playWW/?FirstName=Jimmy
+
+    public int randomNum = 0;
+    public string msg = "";
+
+    private List<string> words = new List<string>();
+
+    private string theWord = "";
+
+    private void AddToList()
+    {
+        if (!words.Contains(theWord))
+        {
+            words.Add(theWord);
+        }
+
+    }
+
+    private async Task RandomDelete()
+    {
+        if (words.Count() != 0)
+        {
+            var random = new Random();
+            randomNum = random.Next(0, words.Count());
+            words.Remove(words[randomNum]);
+            msg = "";
+        }
+        else
+        {
+            msg = "The list is empty...";
+        }
+    }
+
+
+    private void DeleteLast()
+    {
+        if (words.Count() != 0)
+        {
+            words.Remove(words.Last());    
+        }
+    }
+
+
+
+}

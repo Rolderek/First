@@ -1,0 +1,30 @@
+﻿@page "/weather"
+@page "/weather/{Parameter3}"
+@inject HttpClient Http
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather</h1>
+
+<InputText Value="@RaccoonsAreAwsome" />
+
+<div>
+    <p>@RaccoonsAreAwsome</p>
+    <p>@Parameter1</p>
+    <p>@Parameter2</p>
+    <p>@Parameter3</p>
+</div>
+
+@code {
+    string RaccoonsAreAwsome = "";
+    [Parameter]
+    public string Parameter1 { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Parameter2 { get; set; }
+    //ennek mindig kell érték és mindig kell hogy legyen értéke
+
+    [SupplyParameterFromQuery(Name = "ParameterName")]
+    public string Parameter3 { get; set; }
+    //ez az URL-ből kap értéket
+}

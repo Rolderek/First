@@ -1,0 +1,18 @@
+﻿
+<!--újrahasználható elem-->
+
+<button @attributes="AdditionalAttributes" @onclick="OnButtonClickedAsync" >Click me!</button>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    //EventCallbackDemo prezentáláshoz:
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    private async Task OnButtonClickedAsync()
+    {
+        await OnClick.InvokeAsync();   
+    }
+}
