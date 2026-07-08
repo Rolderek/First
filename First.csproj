@@ -12,6 +12,7 @@
     <PackageReference Include="Blazor.SessionStorage" Version="9.0.1" />
     <PackageReference Include="Blazor.SessionStorage.WebAssembly" Version="9.0.1" />
     <PackageReference Include="Blazor.Storage" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.9" PrivateAssets="all" />
   </ItemGroup>
