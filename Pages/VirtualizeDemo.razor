@@ -1,13 +1,28 @@
 ﻿@page "/virtualizeDemo"
-
+@using First.Models
+@inject Data Data
 <h3>VirtualizeDemo</h3>
 
 <table>
-    <Virtualize>
-
+    <Virtualize Items="@Data.GetData()">
+        <ChildContent>
+            <tr>
+                <td>@context.Name</td>
+                <td>@context.RealName</td>
+                <td>@GetTheListValue(context.Powers)</td>
+            </tr>
+        </ChildContent>
     </Virtualize>
 </table>
 
 @code {
 
+    private string GetTheListValue(List<string> list)
+    {
+        string result = "";
+        result = list.Aggregate((current, next) => current + ", " + next);
+        return result;
+    }
+
 }
+ 

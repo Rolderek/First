@@ -34,6 +34,7 @@ internal class Program
         builder.Services.AddSingleton<StateService>();
         builder.Services.AddScoped<LocalStorageService>();
         builder.Services.AddScoped<ProgrammingLangueageService>();
+        builder.Services.AddScoped<Data>();
 
         await builder.Build().RunAsync();
     }
