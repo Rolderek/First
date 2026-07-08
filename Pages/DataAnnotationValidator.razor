@@ -13,7 +13,54 @@
     <DataAnnotationsValidator />
 </EditForm>
 
+<div>
+    <div><input type="text" value="@hero.Name" />@hero.Name</div>
+    <div><input type="text" value="@hero.RealName" />@hero.RealName</div>
+    <div><input type="text" value="@p" onclick="@AddPower"/>@p</div>
+    
+</div>
+
+<p>@msg</p>
+
+
 @code {
+    //ezeknek még jó lenne megjelenést és bemeneti paramétereket adni hogy tesztelhető legyen a validation
+    string msg = "";
+    string p = "";
+
+    List<string> newPowers = new();
+
+    private void AddPower()
+    {
+        newPowers.Add(p);
+    }
+
+    private bool NameCheck(string name)
+    {
+        bool result = false;
+        if (name != "" || name != null)
+        {
+            result = true;    
+        }
+        return result;
+    }
+
+    private bool RealNameCheck(string rName)
+    {
+        bool result = false;
+        if (rName != "" || rName != null)
+        {
+            result = true;
+        }
+        return result;
+    }
+
+    private bool PowersCheck()
+    {
+        bool result = p.Any();
+        return result;
+    }
+
     private Superhero hero = new();
 
     private EditContext? heroEditContext;
@@ -22,6 +69,7 @@
     {
         heroEditContext = new(hero);
     }
+
 
     private void ValidSubmit(EditContext editContext)
     {
