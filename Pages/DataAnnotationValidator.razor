@@ -7,8 +7,10 @@
 
 </EditForm>
 
-<EditForm Model="@hero" OnInvalidSubmit="InvalidSubmit" OnSubmit="Submit" OnValidSubmit="ValidSubmit">
-
+<EditForm Model="@hero"
+          OnValidSubmit="ValidSubmit"
+          OnInvalidSubmit="InvalidSubmit">
+    <DataAnnotationsValidator />
 </EditForm>
 
 @code {
