@@ -1,0 +1,42 @@
+﻿@page "/DataAnnotationValidation"
+@using First.Models
+
+<h3>DataAnnotationValidator</h3>
+
+<EditForm EditContext="@heroEditContext">
+
+</EditForm>
+
+<EditForm Model="@hero" OnInvalidSubmit="InvalidSubmit" OnSubmit="Submit" OnValidSubmit="ValidSubmit">
+
+</EditForm>
+
+@code {
+    private Superhero hero = new();
+
+    private EditContext? heroEditContext;
+
+    protected override void OnInitialized()
+    {
+        heroEditContext = new(hero);
+    }
+
+    private void ValidSubmit(EditContext editContext)
+    {
+        //Save data
+    }
+
+    private void InvalidSubmit(EditContext editContext)
+    {
+        Console.WriteLine("Invalid Submit");    
+    }
+
+    private void Submit(EditContext editContext)
+    {
+        Console.WriteLine("Submit");
+        FieldIdentifier fieldIdentifier = editContext.Field("RealName");
+        editContext.IsValid(fieldIdentifier);
+        editContext.IsModified(fieldIdentifier);
+        editContext.MarkAsUnmodified();
+    }
+}

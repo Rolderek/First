@@ -61,5 +61,7 @@
             RealName = realName;
             Powers = powers;
         }
+
+        public Superhero() { } //üres is legyen, miért ne
     }
 }
