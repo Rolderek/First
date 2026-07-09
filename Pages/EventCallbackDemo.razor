@@ -7,20 +7,37 @@
 <button @onclick="@(async ()=>{Clicked();await ClickedAsync();})">Method</button> <!--explicit is van benne-->
 <button @onclick="@ClickWithArgs">With Args</button>
 
+<div>
+    @foreach (var l in logs)
+    {
+    <p>@l</p>    
+    }
+</div>
 
 @code {
-    void Clicked()
-    {
 
+    private List<string> logs = new();
+
+    private void LogAction(string message)
+    {
+        logs.Insert(0, $"[{DateTime.Now.ToString("HH:mm:ss")}] {message}");
     }
 
-    Task ClickedAsync()
+    void Clicked()
     {
-        return Task.CompletedTask;   
+        LogAction("Sync Clicked() method finished running.");
+    }
+
+    async Task ClickedAsync()
+    {
+        LogAction("Async ClickedAsync() starting delay simulation...");
+        await Task.Delay(500);
+        LogAction("Async ClickedAsync() task successfully completed.");
     }
 
     void ClickWithArgs(MouseEventArgs args)
     {
-        var y = args.ScreenY;   
+        LogAction($"MouseArgs caught! Cursor Screen Position -> X: {args.ScreenX}, Y: {args.ScreenY}");
+        LogAction($"Modifier keys pressed? Ctrl: {args.CtrlKey}, Shift: {args.ShiftKey}");
     }
 }
