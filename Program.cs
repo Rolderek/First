@@ -1,4 +1,5 @@
 using First;
+using First.Interfaces;
 using First.Models;
 using First.Services;
 using Microsoft.AspNetCore.Components;
@@ -35,6 +36,10 @@ internal class Program
         builder.Services.AddScoped<LocalStorageService>();
         builder.Services.AddScoped<ProgrammingLangueageService>();
         builder.Services.AddScoped<Data>();
+        builder.Services.AddScoped<ITodoApiService, TodoApiService>();
+        builder.Services.AddScoped<ITodoItemService, TodoItemService>();
+        builder.Services.AddScoped<ITodoCategoryService, CategoryService>();
+        //builder.Services.AddHttpClient(); // no!
         
 
         await builder.Build().RunAsync();

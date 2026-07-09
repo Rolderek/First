@@ -1,0 +1,41 @@
+﻿@page "/list"
+@using First.Interfaces
+@using First.Models
+@using First.Services
+@using First.Enums
+@inject ITodoApiService _api
+
+<SvgCheckboxResources></SvgCheckboxResources>
+<div class="todo-list box">
+    @foreach (var item in TodoItems)
+    {
+        <div class="todo">
+            <SvgCheckbox @bind-Value:get="@(item.State==TodoItemState.Completed)"
+                         @bind-Value:set="@((value)=>ChangeStatusAsync(item, value))"
+                         Url="@($"/items/{item.Id}")">
+                @item.Text
+            </SvgCheckbox>
+        </div>    
+    }
+</div>
+
+<h3>List</h3>
+
+@code {
+
+    //itt tárolom el:
+    private List<TodoItem> TodoItems { get; set; } = new List<TodoItem>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        TodoItems = (await _api.GetTodoItemsAsync()).ToList();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task ChangeStatusAsync(TodoItem item, bool value)
+    {
+        item.State = value ? TodoItemState.Completed : TodoItemState.Pending;
+        await _api.UpdateTodoItemAsync(item);
+    }
+}

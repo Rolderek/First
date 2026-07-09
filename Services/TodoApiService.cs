@@ -1,0 +1,95 @@
+﻿using First.Interfaces;
+using First.Models;
+using First.Interfaces;
+using Microsoft.AspNetCore.Components;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace First.Services
+{
+    public class TodoApiService : ITodoApiService
+    {
+        private readonly HttpClient _httpClient;
+        private readonly INotificationService _notificationService;
+        public TodoApiService(HttpClient httpClient, NavigationManager manager, INotificationService notificationservice)
+        {
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri(manager.BaseUri);
+            _notificationService = notificationservice;
+        }
+
+        JsonSerializerOptions options = new()
+        {
+            ReferenceHandler = ReferenceHandler.Preserve,
+            PropertyNameCaseInsensitive = true
+        };
+
+        // TodoItem metódusai (ellenőrizni hogy minden meg van csinálva rendesen!)
+        public async Task<List<TodoItem>> GetTodoItemsAsync()
+        {
+            return (await _httpClient.GetFromJsonAsync<IEnumerable<TodoItem>>("/api/todos", options))?.ToList() ?? new List<TodoItem>();
+        }
+
+        public async Task<TodoItem?> GetTodoItemByIdAsync(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<TodoItem>($"/api/todos/{id}", options);
+        }
+
+        public async Task<TodoItem?> CreateTodoItemAsync(TodoItem todoItem)
+        {
+            var response = await _httpClient.PostAsJsonAsync("/api/todos", todoItem);
+            response.EnsureSuccessStatusCode();
+
+            var item = await response.Content.ReadFromJsonAsync<TodoItem>();
+            if (item != null)
+            {
+                await _notificationService.SendNotificationAsync(item);
+            }
+            return item;
+        }
+
+        public async Task UpdateTodoItemAsync(TodoItem todoItem)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"/api/todos/{todoItem.Id}", todoItem, options);
+            response.EnsureSuccessStatusCode();
+            await _notificationService.SendNotificationAsync(todoItem);
+        }
+
+        public async Task DeleteTodoItemAsync(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/todos/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+
+        // Category metódusai, itt is ellenőrizz!
+        public async Task<List<Category>> GetCategoriesAsync()
+        {
+            return (await _httpClient.GetFromJsonAsync<IEnumerable<Category>>("/api/categories", options))?.ToList() ?? new List<Category>();
+        }
+
+        public async Task<Category?> GetCategoryByIdAsync(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<Category>($"/api/categories/{id}", options);
+        }
+
+        public async Task<Category?> CreateCategoryAsync(Category category)
+        {
+            var response = await _httpClient.PostAsJsonAsync("/api/categories", category, options);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<Category>();
+        }
+
+        public async Task UpdateCategoryAsync(Category category)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"/api/categories/{category.Id}", category);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task DeleteCategoryAsync(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/categories/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+    }
+}
