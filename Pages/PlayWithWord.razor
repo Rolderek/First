@@ -30,13 +30,13 @@
 
 @code {
 
-    [Parameter]
+    [Parameter] //ez szülőtől várja a paraméter beállítását
     public string? Variable { get; set; }
 
     [Parameter]
     public int? IntVariable { get; set; }
 
-    [Parameter, SupplyParameterFromQuery]
+    [Parameter, SupplyParameterFromQuery] //ez az URL-ből várja a "?" utáni részből elvileg
     public string? FirstName { get; set; }
     //            playWW/?FirstName=Jimmy
 
